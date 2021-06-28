@@ -42,16 +42,6 @@ deconv_new <- function(tau, X, Q, P, d,
   
   distance <- tau-c(0,tau[-m])
   statsFunction <- function(a) {
-    # for ( i in 1:length(X)){
-    #   for (j in 1:m){
-    #     P[i,j]= ifelse (tau[j]==0,
-    #                     P_pre[i,j],
-    #                     ifelse(
-    #                       X[i]==0,
-    #                       a[1]+(1-a[1])*P_pre[i,j],
-    #                       (1-a[1])*P_pre[i,j]
-    #                     )
-    #     )}}
     P = (1-a[1])*P_pre
     P[which(X==0),] = a[1] + P[which(X==0),] 
     pi <- a[1]
@@ -70,12 +60,6 @@ deconv_new <- function(tau, X, Q, P, d,
     ### pi part
     dPpi <- matrix(0,nrow=length(X),ncol=m)
     dpg <-rep(0,length(X))
-    
-    # for ( i in 1:length(X)){
-    #   dPpi[i,] <- ifelse(X[i]==0, 1, 0)*(1-exp(-tau*d[i])) - ifelse(X[i]==0, 0, 1)*dpois(X[i],lambda=tau*d[i])
-    #   dpg[i] <- t(dPpi[i,]) %*% g
-    # }
-    # 
     for ( i in 1:length(X)){
       dPpi[i,] <- ifelse(X[i]==0, 1, 0)*(1-P_pre[i,]) - ifelse(X[i]==0, 0, 1)*P_pre[i,]
       dpg[i] <- t(dPpi[i,]) %*% g
@@ -142,14 +126,6 @@ deconv_new <- function(tau, X, Q, P, d,
     g <- as.vector(g / sum(g))
     f <- as.vector(P %*% g)
     value <- -sum(y * log(f)) + c0 * sum(a^2)^.5
-    # Pt <- P / f
-    # W <- g * (t(Pt) - 1 )
-    # qw <- t(Q) %*% W
-    # aa <- sqrt(sum(a^2))
-    # sDot <- c0 * a / aa
-    # ldot.pi <- (V/f) %*% g
-    # ldot <- rbind(t(ldot.pi), qw)
-    # attr(value, "gradient") <- -rowSums(ldot) + sDot
     value
   }
   grr <- function(a) {
