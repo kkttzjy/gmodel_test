@@ -16,7 +16,6 @@ P_value<-matrix(0,nrow=nSIM,ncol=length(w))
 library(gplots)
 set.seed(123456)
 
-ptm <- proc.time()
 for ( k in 1: length(w)){
   for (i in 1:nSIM){
     index = sample(c(rep(1,length(surg$n)/2), rep(0,length(surg$n)/2)),length(surg$n))
@@ -43,13 +42,13 @@ for ( k in 1: length(w)){
     f[,i]<-resultY$stats[, "g"] ## estimated density function
     F_est<-resultY$stats[, "G"] ## estimated cumulative density function
     ## Under null hypothesis: pull X and Y together to estimate g(theta)
-    sample = rbind(dataX, dataY) 
+    sample = rbind(dataX, dataY)
     results = deconv(tau = tau, X = sample, family = "Binomial",  c0 = 1)
     g_pool[,i]<- results$stats[, "g"]
     Difference_hat = abs(G_est - F_est)
     T_hat = max(Difference_hat)
     ### bootstrap
-    
+
     genBootSampleX <- function() {
       thetaXStar = sample(tau, size = NX, replace = TRUE, prob = g_pool[,i])
       xStar <- sapply(seq_len(NX),
@@ -58,7 +57,7 @@ for ( k in 1: length(w)){
                       })
       data.frame(cbind(dataX[,1], xStar))
     }
-    
+
     genBootSampleY <- function() {
       taoStar <- sample(tau, size = NY, replace = TRUE, prob = g_pool[,i])
       yStar <- sapply(seq_len(NY),
@@ -67,7 +66,7 @@ for ( k in 1: length(w)){
                       })
       data.frame(cbind(dataY[,1], yStar))
     }
-    
+
     bootResults = lapply(seq_len(B),
                          function(j) {
                            XBoot = genBootSampleX()
@@ -88,7 +87,6 @@ for ( k in 1: length(w)){
   }
   power[k]<-length(which(P_value[,k]<0.05))/nSIM
 }
-proc.time() - ptm
 
 ## power plot
 
