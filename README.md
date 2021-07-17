@@ -5,7 +5,7 @@ The R codes with simulation experiments and real data analysis examples for the 
 The "ZIF simulation" file shows an example code of the similation for the zero-inflated Poisson case.
 
 ## Real data analysis: scRNA-seq data set
-The 
+The "real data ASY.R" and "real data KS.R" are the example code of our two-sample test with two p-value estimation procedures for the single-ccell RNA-seq data set.
 
 ## Real data-based simulation
-
+The "alternative case 1.R" and "alternative case 2.R" 
