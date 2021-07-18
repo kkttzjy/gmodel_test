@@ -8,4 +8,4 @@ The "ZIF simulation" file shows an example code of the similation for the zero-i
 The "real data ASY.R" and "real data KS.R" are the example code of our two-sample test with two p-value estimation procedures for the single-ccell RNA-seq data set.
 
 ## Real data-based simulation
-The "alternative case 1.R" and "alternative case 2.R" 
+The "alternative case 1.R" and "alternative case 2.R" are the example codes for the 
