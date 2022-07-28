@@ -66,14 +66,6 @@ for (i in 498:2000){
   NY <- length(d.E4)
   dataX <- t(select.E3[i,])
   dX <- d.E3
-  # remove outliers
-  quant_X <- quantile(dataX/dX, probs=c(.25, .75), na.rm = FALSE)
-  iqr_X <- IQR(dataX/dX)
-  up_X <-  quant_X[2]+1.5*iqr_X # Upper Range
-  low_X<- quant_X[1]-1.5*iqr_X # Lower Range
-  X.index <- which(dataX/dX>= (quant_X[1] - 1.5*iqr_X) & dataX/dX <= (quant_X[2]+1.5*iqr_X))
-  dataX <- dataX[X.index]
-  dX <- dX[X.index]
   resultX<-deconv_new(tau=tau,X=dataX, d=dX, c0=1)
   pi_X[i]<-resultX$pi
   g[,i]<-resultX$stats[, "g"]  ## estimated density function
@@ -83,13 +75,6 @@ for (i in 498:2000){
   #unstim
   dataY <- t(select.E4[i,])
   dY <- d.E4
-  quant_Y <- quantile(dataY/dY, probs=c(.25, .75), na.rm = FALSE)
-  iqr_Y <- IQR(dataY/dY)
-  up_Y<-  quant_Y[2]+1.5*iqr_Y # Upper Range
-  low_Y<- quant_Y[1]-1.5*iqr_Y # Lower Range
-  Y.index <- which(dataY/dY>= (quant_Y[1] - 1.5*iqr_Y) & dataY/dY <= (quant_Y[2]+1.5*iqr_Y))
-  dataY <- dataY[Y.index]
-  dY <- dY[Y.index]
   resultY<-deconv_new(tau=tau,X=dataY, d=dY, c0=1)
   pi_Y[i]<-resultY$pi
   f[,i]<-resultY$stats[, "g"] ## estimated density function
