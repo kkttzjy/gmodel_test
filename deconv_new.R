@@ -147,8 +147,7 @@ deconv_new <- function(tau, X, Q, P, d,
     -rowSums(ldot) + sDot
   }
 
-  result <- stats::nlminb(aStart, loglik, gradient = grr,
-                          lower=c(0, rep(-Inf,6)), upper=c(0.9999, rep(Inf,6)))
+  result <- stats::optim(aStart, loglik, method="L-BFGS-B",lower=c(0, rep(-Inf,6)), upper=c(0.99999, rep(Inf,6)), control=list(trace=TRUE))
 
   mle <- result$par
   stats <- statsFunction(mle)
